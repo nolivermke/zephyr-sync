@@ -37,8 +37,8 @@ public class ZephyrService {
     private Map<String, Execution> getAllExecutions(Config config) throws IOException {
         log("Fetching JIRA Test Executions for the project");
         int skip = 0;
-        String search = "project='" + config.getValue(PROJECT_KEY) + "'%20and%20fixVersion='"
-                + URLEncoder.encode(config.getValue(RELEASE_VERSION), "UTF-8") + "'%20and%20cycleName='" + config.getValue(TEST_CYCLE) + "'";
+        String search = "project='" + URLEncoder.encode(config.getValue(PROJECT_KEY),"UTF-8") + "'%20and%20fixVersion='"
+                + URLEncoder.encode(config.getValue(RELEASE_VERSION), "UTF-8") + "'%20and%20cycleName='" + URLEncoder.encode(config.getValue(TEST_CYCLE),"UTF-8") + "'";
 
         ExecutionResponse executionResponse = searchInZQL(search, skip);
         if (executionResponse == null || executionResponse.getExecutions().isEmpty()) {
