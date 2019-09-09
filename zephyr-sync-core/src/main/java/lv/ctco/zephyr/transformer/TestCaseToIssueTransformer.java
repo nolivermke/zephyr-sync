@@ -48,6 +48,13 @@ public class TestCaseToIssueTransformer {
             issue.getFields().setPriority(priority);
         }
 
+
+        Metafield component = new Metafield();
+        component.setName("Accounts");
+        List<Metafield> components = new ArrayList<>(1);
+        components.add(component);
+        issue.getFields().setComponents(components);
+
         List<String> labels = new ArrayList<>();
         labels.add("Automation");
         List<String> testLabels = testCase.getLabels();
@@ -74,7 +81,7 @@ public class TestCaseToIssueTransformer {
                     metafield.setName(value);
                     List<Metafield> versions = new ArrayList<Metafield>(1);
                     versions.add(metafield);
-                    issue.getFields().setVersions(versions);
+                    issue.getFields().setFixVersions(versions);
                 }
                 if (property.equals(ConfigProperty.PROJECT_KEY)) {
                     metafield.setKey(value);

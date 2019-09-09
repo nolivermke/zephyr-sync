@@ -15,7 +15,8 @@ public class Fields {
     private Metafield issuetype;
     private Metafield priority;
     private Metafield severity;
-    private List<Metafield> versions;
+    private List<Metafield> fixVersions;
+    private List<Metafield> components;
     private String[] labels;
 
     public String getSummary() {
@@ -68,12 +69,20 @@ public class Fields {
         this.issuetype = issuetype;
     }
 
-    public List<Metafield> getVersions() {
-        return versions;
+    public List<Metafield> getFixVersions() {
+        return fixVersions;
     }
 
-    public void setVersions(List<Metafield> versions) {
-        this.versions = versions;
+    public void setFixVersions(List<Metafield> fixVersions) {
+        this.fixVersions = fixVersions;
+    }
+
+    public List<Metafield> getComponents() {
+        return components;
+    }
+
+    public void setComponents(List<Metafield> components) {
+        this.components = components;
     }
 
     public Metafield getPriority() {

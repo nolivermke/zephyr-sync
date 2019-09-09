@@ -18,7 +18,7 @@ public class TestCase {
     private List<TestStep> steps;
     private TestStatus status = TestStatus.NOT_EXECUTED;
     private TestLevel severity;
-    private TestLevel priority = TestLevel.MEDIUM;
+    private TestLevel priority = TestLevel.TRIVIAL;
 
     public Integer getId() {
         return id;
