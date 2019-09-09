@@ -144,6 +144,10 @@ public class ZephyrService {
             }
 
             ExecutionRequest request = new ExecutionRequest();
+            String message = testCase.getMessage();
+            if(message != null && !message.isEmpty()){
+                request.setComment(message);
+            }
             request.setStatus(testCase.getStatus().getId());
             HttpResponse response = put(config, "zapi/latest/execution/" + execution.getId() + "/execute", request);
             ensureResponse(response, 200, "Could not successfully update execution status");

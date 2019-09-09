@@ -57,7 +57,12 @@ public class JUnitTransformer implements ReportTransformer {
             JUnitResult.Failure failure = testCase.getFailure();
             JUnitResult.Error  error = testCase.getError();
             test.setStatus(error != null || failure != null ? TestStatus.FAILED : TestStatus.PASSED);
-            test.setMessage(error != null ? error.getMessage() : failure != null ? failure.getMessage() : "");
+            String message = error != null ?
+                    String.format("%s \n %s",error.getMessage(), error.getValue()) :
+                    failure != null ?
+                            String.format("%s \n %s", failure.getMessage(), failure.getValue()) :
+                            "";
+            test.setMessage(message);
             result.add(test);
         }
         return result;
