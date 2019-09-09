@@ -20,13 +20,25 @@ public class JUnitTransformer implements ReportTransformer {
     }
 
     public List<TestCase> transformToTestCases(String reportPath) {
-        return transform(readJUnitReport(reportPath));
+        File fileOrDir = new File(reportPath);
+        if(fileOrDir.isDirectory()){
+            File[] files = fileOrDir.listFiles((dir, name) -> name.endsWith(".xml"));
+            List<TestCase> testCases = new ArrayList<>();
+            if(files == null){
+                return testCases;
+            }
+            for (File file:files) {
+                testCases.addAll(transform(readJUnitReport(file)));
+            }
+            return testCases;
+        }
+        return transform(readJUnitReport(fileOrDir));
     }
 
-    JUnitResultTestSuite readJUnitReport(String path)  {
+    JUnitResultTestSuite readJUnitReport(File file)  {
         try {
             JAXBContext jaxbContext = JAXBContext.newInstance(JUnitResultTestSuite.class);
-            return (JUnitResultTestSuite) jaxbContext.createUnmarshaller().unmarshal(new File(path));
+            return (JUnitResultTestSuite) jaxbContext.createUnmarshaller().unmarshal(file);
         } catch (JAXBException e) {
             throw new ZephyrSyncException("Cannot process JUnit report", e);
         }
@@ -42,7 +54,10 @@ public class JUnitTransformer implements ReportTransformer {
             TestCase test = new TestCase();
             test.setName(testCase.getName());
             test.setUniqueId(generateUniqueId(testCase));
-            test.setStatus(testCase.getError() != null || testCase.getFailure() != null ? TestStatus.FAILED : TestStatus.PASSED);
+            JUnitResult.Failure failure = testCase.getFailure();
+            JUnitResult.Error  error = testCase.getError();
+            test.setStatus(error != null || failure != null ? TestStatus.FAILED : TestStatus.PASSED);
+            test.setMessage(error != null ? error.getMessage() : failure != null ? failure.getMessage() : "");
             result.add(test);
         }
         return result;

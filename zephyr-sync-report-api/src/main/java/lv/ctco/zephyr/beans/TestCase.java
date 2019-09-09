@@ -13,6 +13,7 @@ public class TestCase {
     private String suiteName;
     private String name;
     private String description;
+    private String message;
     private List<String> storyKeys;
     private List<String> labels;
     private List<TestStep> steps;
@@ -114,5 +115,13 @@ public class TestCase {
 
     public void setSuiteName(String suiteName) {
         this.suiteName = suiteName;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
+
+    public String getMessage() {
+        return message;
     }
 }
